@@ -808,10 +808,6 @@ class Model(base_layer.Layer, version_utils.ModelVersionSelector):
       y_pred = self(x, training=True)
       loss = self.compiled_loss(
           y, y_pred, sample_weight, regularization_losses=self.losses)
-    if self.loss and y is None:
-      raise TypeError(
-          f'Target data is missing. Your model has `loss`: {self.loss}, '
-          'and therefore expects target data to be passed in `fit()`.')
     # Run backwards pass.
     self.optimizer.minimize(loss, self.trainable_variables, tape=tape)
     self.compiled_metrics.update_state(y, y_pred, sample_weight)
